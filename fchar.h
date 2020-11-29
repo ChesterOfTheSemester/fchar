@@ -40,13 +40,11 @@ char *fchar(char *format, ...)
       {
         /* % */
         case 0x25:
-          format++;
           *src=0x25;
         break;
 
         /* d or i */
         case 0x64: case 0x69:
-          //format++;
           *src=0x69;
         break;
 
