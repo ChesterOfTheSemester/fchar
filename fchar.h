@@ -48,6 +48,9 @@ char *fchar(char *format, ...)
           *src=0x69;
         break;
 
+        /* s */
+        /* c */
+
         /* None */
         default:
           *src = *format;
