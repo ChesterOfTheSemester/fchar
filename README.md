@@ -1,1 +1,1 @@
-fchar
+Custom snprintf alternative
