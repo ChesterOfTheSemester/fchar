@@ -15,8 +15,6 @@
 
 char *fchar(char *format, ...)
 {
-  return "hello world";
-
   va_list arg_list; long arg;
   va_start(arg_list, format);
 
@@ -95,6 +93,6 @@ char *fchar(char *format, ...)
 
 int main(int argc, char *argv)
 {
-    printf("result: %s", fchar("Names %s", "chester"));
+    printf("result: %s", fchar("Names %i", "chester"));
     return 0;
 }
