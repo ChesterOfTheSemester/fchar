@@ -15,6 +15,8 @@
 
 char *fchar(char *format, ...)
 {
+  return "hello world";
+
   va_list arg_list; long arg;
   va_start(arg_list, format);
 
@@ -38,20 +40,25 @@ char *fchar(char *format, ...)
 
       switch (*format)
       {
+        /* d/i/u/o: (un)signed integer */
+        case 0x64: case 0x69:
+          *src=0x69;
+        break;
+
+        /* x/X: Hexadecimal integer */
+        /* f/F: Float */
+        /* e/E: Scientific notation */
+        /* g/G: e or f depending on unit size */
+        /* a/A: Hexadecimal float */
+        /* s/c: Character(s) */
+        /* p: Pointer address */
+
         /* % */
         case 0x25:
           *src=0x25;
         break;
 
-        /* d or i */
-        case 0x64: case 0x69:
-          *src=0x69;
-        break;
-
-        /* s */
-        /* c */
-
-        /* None */
+        /* n: None */
         default:
           *src = *format;
         break;
@@ -82,3 +89,12 @@ char *fchar(char *format, ...)
 
   printf("test: %d\n", arg);
 */
+
+#include <stdio.h>
+#include <stdlib.h>
+
+int main(int argc, char *argv)
+{
+    printf("result: %s", fchar("Names %s", "chester"));
+    return 0;
+}
