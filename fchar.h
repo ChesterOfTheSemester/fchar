@@ -9,9 +9,8 @@
 #define FCHAR_H
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <stdarg.h>
-
-#define totalDigits(n) (int) floor(log10(abs(n)))+1
 
 char *fchar(char *format, ...)
 {
@@ -19,7 +18,7 @@ char *fchar(char *format, ...)
   va_start(arg_list, format);
 
   size_t bsize;
-  char *buffer = (char*) malloc(bsize=(sizeof(char)*0xFFF)), *src=buffer;
+  char *buffer = (char*) malloc(bsize=(0xFFF)), *src=buffer;
 
   loop:
   {
@@ -33,14 +32,50 @@ char *fchar(char *format, ...)
 
     if (*(format) == 0x25)
     {
-      *src = 0;
-      format++;
+      *src=0; format++;
 
       switch (*format)
       {
         /* d/i/u/o: (un)signed integer */
-        case 0x64: case 0x69:
-          *src=0x69;
+        case 0x64: case 0x69: case 0x75: case 0x6F:
+        {
+          long long num = 123456789123456789; /* Todo: Point to varying */
+          /* Todo: Add specifier limitations */
+
+          int i=0, neg=0, rem, start=0, end;
+          char *rtn = malloc(sizeof(char)*0xFF), *tmp;
+
+          /* Pre-determine if number is negative */
+          if (num<0) { neg = 1; num = -num; }
+
+          /* Generate individual base 10 digits */
+          while (num)
+          {
+            rem = num % 10;
+            rtn[i++] = (rem>9) ? (rem-10)+'a' : rem+'0';
+            num /= 10;
+          }
+
+          /* Add dash at the beginning if num is negative */
+          if (neg) rtn[i++] = '-';
+
+          /* End of integer */
+          rtn[i] = '\0';
+
+          /* Reverse result before return */
+          end=i-1; while (start<end)
+          {
+            /* Swap reverse */
+            tmp = *(rtn+start);
+            *(rtn+start) = *(rtn+end);
+            *(rtn+end) = tmp;
+
+            start++;
+            end--;
+          }
+
+          while (*rtn) *(src++) = *(rtn++);
+        }
         break;
 
         /* x/X: Hexadecimal integer */
@@ -61,6 +96,8 @@ char *fchar(char *format, ...)
           *src = *format;
         break;
       }
+
+      format++;
     }
 
     if (!*src) *src = *format;
@@ -87,12 +124,3 @@ char *fchar(char *format, ...)
 
   printf("test: %d\n", arg);
 */
-
-#include <stdio.h>
-#include <stdlib.h>
-
-int main(int argc, char *argv)
-{
-    printf("result: %s", fchar("Names %i", "chester"));
-    return 0;
-}
