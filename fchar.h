@@ -18,7 +18,7 @@ char *fchar(char *format, ...)
   va_start(arg_list, format);
 
   size_t bsize;
-  char *buffer = (char*) malloc(bsize=(0xFFF)), *src=buffer;
+  char *buffer = (char*) malloc(bsize=0xFFF), *src=buffer;
 
   loop:
   {
