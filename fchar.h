@@ -1,5 +1,5 @@
 /* Todo: support long long (lld)
- * Todo: https://www.geeksforgeeks.org/convert-floating-point-number-string/*/
+ * Todo: https://www.geeksforgeeks.org/convert-floating-point-number-string */
 
 /* fchar 0.1
  * https://github.com/ChesterOfTheSemester/fchar
@@ -14,6 +14,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdarg.h>
+#include "ftoa.h"
 
 char *fchar(char *format, ...)
 {
@@ -44,8 +45,8 @@ char *fchar(char *format, ...)
     if (*(format) == 0x25)
     {
       *src=0; format++;
-      i=neg=rem=start=end=0;
-      rtn = malloc(sizeof(char)*0xFF);
+      i=neg=rem=start=end=dbl=num=chr=0;
+      rtn = malloc(0xFF);
 
       switch (*format)
       {
@@ -90,6 +91,13 @@ char *fchar(char *format, ...)
         }
 
         /* f/F: Float */
+        case 0x66: case 0x46:
+          dbl = va_arg(arg_list, double);
+          rtn = ftoa(dbl, 4);
+
+          goto reverse;
+        break;
+
         /* e/E: Scientific notation */
         /* g/G: e or f depending on unit size */
         /* a/A: Hexadecimal float */
