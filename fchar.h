@@ -1,6 +1,3 @@
-/* Todo: support long long (lld)
- * Todo: https://www.geeksforgeeks.org/convert-floating-point-number-string */
-
 /* fchar 0.1
  * https://github.com/ChesterOfTheSemester/fchar
  *
