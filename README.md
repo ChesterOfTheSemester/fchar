@@ -1,4 +1,4 @@
-Custom snprintf alternative. 
+Custom snprintf/printf alternative. 
 
 Work in progress. 
 
