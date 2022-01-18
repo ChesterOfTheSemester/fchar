@@ -137,9 +137,7 @@ char *fchar(char *format, ...)
           *(rtn+(char)end--) = tmp;
         }
 
-      merge:
-        while (*rtn) *(src++) = *(rtn++);
-
+      merge: while (*rtn) *(src++) = *(rtn++);
 
       endformat: format++;
     }
@@ -147,8 +145,8 @@ char *fchar(char *format, ...)
     if (!*src) *src = *format;
 
     brk:
-    if (!*(++format)) goto rtn;
-    if (!*(++src)) goto resize;
+      if (!*(++format)) goto rtn;
+      if (!*(++src)) goto resize;
   }
 
   if (*format) goto loop;
